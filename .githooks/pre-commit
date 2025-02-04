@@ -1,0 +1,12 @@
+#!/bin/bash
+
+git diff --cached --name-status | while read st file; do
+  if [ "$st" == 'D' ]; then continue; fi
+
+  # Lint js files
+  if [[ "${file:(-3)}" == ".js" ]] || [[ "${file:(-3)}" == ".ts" ]]; then
+    echo "Checking ${file}"
+    npx -y editorconfig-checker "${file}"
+  fi
+
+done
